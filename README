@@ -1,0 +1,8 @@
+Needed a simple gallery that requires minimum actions to create an album with thumbs 
+
+Used the lightbox by Leandro Vieira Pinho :  http://leandrovieira.com/projects/jquery/lightbox/
+Downloaded icons from iconfinder.net
+
+Required :
+PHP 5 ( and up )
+php5-imagick
