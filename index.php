@@ -15,6 +15,7 @@ if( !is_dir( $current_dir ) )
 	$current_dir = 	$dir . DIRECTORY_SEPARATOR;
 }
 
+$no_thumb_dir = false;
 //make thumb_dir
 if( !is_dir($current_dir . "thumbs" ) )
 {
@@ -22,9 +23,10 @@ if( !is_dir($current_dir . "thumbs" ) )
 	{
 		
 	}
+	$no_thumb_dir = true;
 }
 $list = scandir($current_dir);
-$exclude_from_list = array_flip(array(".", "..", "thumbs", "functions.php", "index.php", "_public"));
+$exclude_from_list = array_flip(array(".", "..", "thumbs", "functions.php", "index.php", "_public", "thumb.jpg"));
 
 
 ?>
@@ -76,9 +78,14 @@ foreach($list as $cnt => $row)
 	{
 		if( is_dir($current_dir . $row) )
 		{
+			$background = $url . "_public/default.png";
+			if( file_exists($current_dir . $row . "/thumb.jpg") )
+			{
+				$background = $folder_url . $row ."/thumb.jpg"; 
+			}
 			?>
 			<li>
-				<a href="<?=$url."?folder=".$stack_folder.$row."/"?>" class="dir">
+				<a href="<?=$url."?folder=".$stack_folder.$row."/"?>" class="dir" style="background:url('<?=$background?>') center center no-repeat">
 					<?=$row?>
 				</a>
 			</li>
@@ -89,12 +96,16 @@ foreach($list as $cnt => $row)
 			$format = get_format( $row );
 			if( isset($allowed_formats[strtolower($format)]) )
 			{
-				
 				if( !file_exists( $current_dir . "thumbs" . DIRECTORY_SEPARATOR . $row ) )
 				{
 					$im = new imagick( $current_dir . $row );
 					$im->cropThumbnailImage( 150, 150 );
 					$im->writeImage(  $current_dir . "thumbs" . DIRECTORY_SEPARATOR . $row  );
+					if( $no_thumb_dir == true )
+					{
+						copy( $current_dir . "thumbs" . DIRECTORY_SEPARATOR . $row, $current_dir . "thumb.jpg");
+						$no_thumb_dir = false;
+					}
 				}
 			?>
 			<li>
