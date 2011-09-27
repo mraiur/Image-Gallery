@@ -94,7 +94,7 @@ foreach($list as $cnt => $row)
 				{
 					$im = new imagick( $current_dir . $row );
 					$im->cropThumbnailImage( 150, 150 );
-					$im->writeImage(  $current_dir . "thumbs" . DIRECTOR1Y_SEPARATOR . $row  );
+					$im->writeImage(  $current_dir . "thumbs" . DIRECTORY_SEPARATOR . $row  );
 				}
 			?>
 			<li>
