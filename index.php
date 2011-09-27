@@ -59,6 +59,12 @@ $exclude_from_list = array_flip(array(".", "..", "thumbs", "functions.php", "ind
 		<a class="back_dir" href="<?=$url."?folder=".substr($tmp, 0, strrpos(  $tmp , "/") ). "/"?>">BACK</a>
 		<?php
 	}
+	else
+	{
+		?>
+		<a class="back_dir" href="<?=$url?>">BACK</a>
+		<?php
+	}
 	?>
 <div id="gallery">
     <ul>
@@ -81,16 +87,15 @@ foreach($list as $cnt => $row)
 		else
 		{
 			$format = get_format( $row );
-			
-			if( !file_exists( $current_dir . "thumbs" . DIRECTORY_SEPARATOR . $row ) )
-			{
-				$im = new imagick( $current_dir . $row );
-				$im->cropThumbnailImage( 150, 150 );
-				$im->writeImage(  $current_dir . "thumbs" . DIRECTORY_SEPARATOR . $row  );
-			}
-			
 			if( isset($allowed_formats[strtolower($format)]) )
 			{
+				
+				if( !file_exists( $current_dir . "thumbs" . DIRECTORY_SEPARATOR . $row ) )
+				{
+					$im = new imagick( $current_dir . $row );
+					$im->cropThumbnailImage( 150, 150 );
+					$im->writeImage(  $current_dir . "thumbs" . DIRECTOR1Y_SEPARATOR . $row  );
+				}
 			?>
 			<li>
 				<a href="<?=$folder_url.$row?>" title="<?=$row?>" class="image">
@@ -105,3 +110,7 @@ foreach($list as $cnt => $row)
 	}
 }
 ?>
+	</ul>
+</div>
+</body>
+</html>

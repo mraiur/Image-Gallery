@@ -1,22 +1,14 @@
 body{ background-color: #444; }
 .back_dir{ height:30px; line-height:26px; width:200px; display:block; padding:0px 0px 0px 40px; background:url(../images/back.png) center left no-repeat; color:#FFFFFF; text-decoration:none; font-weight:bold;}
 /* jQuery lightBox plugin - Gallery style */
-#gallery {
-	padding: 10px;
-	width: 980px;
-}
+#gallery { padding: 10px; width: 980px; }
 #gallery ul { list-style: none; }
 #gallery ul li { display: inline; }
-#gallery ul img {
-	border: 5px solid #3e3e3e;
-	border-width: 5px 5px 20px;
-}
-#gallery ul a.dir{ width:150px; height:150px; line-height:150px; text-align:center; display:block; background:url('../default.png') top left no-repeat #FFFFFF; }
+#gallery ul img { border: 5px solid #3e3e3e; border-width: 5px 5px 20px; }
+#gallery ul a.dir{ width:150px; height:150px; line-height:150px; text-align:center; display:block; float:left; background:url('../default.png') top left no-repeat #FFFFFF; border: 5px solid #3e3e3e; border-width: 5px 5px 20px; }
 #gallery ul a:hover.dir{ background-color:#C9C9C9 }
-#gallery ul a:hover img {
-	border: 5px solid #fff;
-	border-width: 5px 5px 20px;
-	color: #fff;
-}
+#gallery ul a:hover img { border: 5px solid #fff; border-width: 5px 5px 20px; color: #fff; }
 #gallery ul a{ color:#000000; text-decoration:none; }
 #gallery ul a:hover { color: #2c2c2c; }
+
+.clear{ clear:both; }
