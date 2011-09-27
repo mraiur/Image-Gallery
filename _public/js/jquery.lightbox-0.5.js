@@ -138,6 +138,7 @@
 			// Get page scroll
 			var arrPageScroll = ___getPageScroll();
 			// Calculate top and left offset for the jquery-lightbox div object and show it
+			
 			$('#jquery-lightbox').css({
 				top:	arrPageScroll[1] + (arrPageSizes[3] / 10),
 				left:	arrPageScroll[0]
@@ -183,11 +184,33 @@
 				$('#lightbox-image,#lightbox-nav,#lightbox-nav-btnPrev,#lightbox-nav-btnNext,#lightbox-container-image-data-box,#lightbox-image-details-currentNumber').hide();
 			}
 			// Image preload process
+			
+			var maxSize = ___getPageSize();
+			var maxSizeRatio = maxSize[2]/maxSize[3];
+			
 			var objImagePreloader = new Image();
 			objImagePreloader.onload = function() {
 				$('#lightbox-image').attr('src',settings.imageArray[settings.activeImage][0]);
 				// Perfomance an effect in the image container resizing it
-				_resize_container_image_box(objImagePreloader.width,objImagePreloader.height);
+				var img_ratio = objImagePreloader.width / objImagePreloader.height;
+				var im_w = objImagePreloader.width;
+				var im_h = objImagePreloader.height;
+				if( img_ratio < maxSizeRatio )
+				{
+					var dbox_h = $("#lightbox-container-image-data-box").height()+20;
+					var tmp = ( maxSize[3] - (settings.containerBorderSize * 2) - dbox_h )
+					im_w = tmp * img_ratio;
+					im_h = tmp;
+					$('#jquery-lightbox').css({
+						top: 0
+					})
+				}
+				else
+				{
+					im_w = ( maxSize[2] - (settings.containerBorderSize * 2));
+					im_h = im_w / img_ratio;
+				}
+				_resize_container_image_box(im_w, im_h);
 				//	clear onLoad, IE behaves irratically with animated gifs otherwise
 				objImagePreloader.onload=function(){};
 			};
@@ -210,7 +233,7 @@
 			var intDiffW = intCurrentWidth - intWidth;
 			var intDiffH = intCurrentHeight - intHeight;
 			// Perfomance the effect
-			$('#lightbox-container-image-box').animate({ width: intWidth, height: intHeight },settings.containerResizeSpeed,function() { _show_image(); });
+			$('#lightbox-container-image-box').animate({ width: intWidth, height: intHeight },settings.containerResizeSpeed,function() { _show_image(intImageWidth, intImageHeight); });
 			if ( ( intDiffW == 0 ) && ( intDiffH == 0 ) ) {
 				if ( $.browser.msie ) {
 					___pause(250);
@@ -225,9 +248,13 @@
 		 * Show the prepared image
 		 *
 		 */
-		function _show_image() {
+		function _show_image(pW, pH) {
 			$('#lightbox-loading').hide();
-			$('#lightbox-image').fadeIn(function() {
+			
+			$('#lightbox-image').attr({
+				"width" : pW,
+				"height" : pH
+			}).fadeIn(function() {
 				_show_image_data();
 				_set_navigation();
 			});
