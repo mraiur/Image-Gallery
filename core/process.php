@@ -27,8 +27,8 @@ if($hasThumbDir) {
             $im = new imagick( $albumPath.$file );
             $im->cropThumbnailImage( 150, 150 );
             $im->writeImage(  $thumbDir.$file  );
-            if($generated>3) {
-                header("Refresh: 0");
+            if($generated>2) {
+                header("Refresh: 15");
                 die();
             }
             $generated++;
