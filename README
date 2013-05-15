@@ -1,3 +1,4 @@
+Copy example-albums.xml to albums.xml not to overwrite your xml on pull.
 
 # Add album
 Add manualy a record in albums.xml with format:
