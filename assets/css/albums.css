@@ -1,0 +1,44 @@
+.list-albums{
+
+}
+
+.list-albums .album{
+    border:solid #DEE6EE 1px;
+    border-radius: 5px;
+    padding:5px;
+    margin-bottom:5px;
+}
+
+.list-albums .album .thumb{
+    text-align: center;
+    width:150px;
+    height: 150px;
+    display: block;
+    border:solid #DEE6EE 1px;
+    border-radius: 5px;
+    padding:5px;
+    margin:5px 5px 5px 5px;
+    float:left;
+}
+
+.list-albums .album .info{ 
+    position: relative; 
+    margin-left:170px; 
+}
+
+.list-albums .album .info .title{ 
+    margin-bottom:5px; 
+    font-weight: bold; 
+}
+
+.list-albums .album .info .description{}
+
+.list-albums .album .info .processLink{ 
+    width:25px;
+    height:25px;
+    display: block;
+    position: absolute;
+    bottom:0px;
+    right: 0px;
+    background:url(../images/process.png) center center no-repeat;
+}

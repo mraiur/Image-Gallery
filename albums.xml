@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<albums>
+  <album>
+    <id>1</id>
+    <title>Example album</title>
+    <folder>example-album</folder>
+    <thumb/>
+    <description>Some description</description>
+  </album>
+</albums>

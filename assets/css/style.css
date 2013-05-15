@@ -1,0 +1,14 @@
+* { 
+    padding:0px; 
+}
+a { 
+    text-decoration:none; 
+    color:#A2C9EF;
+}
+a:hover { 
+    color: #76B6F2; 
+    text-decoration: underline;
+}
+.clear{ 
+    clear:both; 
+}

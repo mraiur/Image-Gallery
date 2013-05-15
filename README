@@ -1,8 +1,20 @@
-Needed a simple gallery that requires minimum actions to create an album with thumbs 
+Add manualy a record in albums.xml with format:
 
-Used the lightbox by Leandro Vieira Pinho :  http://leandrovieira.com/projects/jquery/lightbox/
-Downloaded icons from iconfinder.net
+`
+<album>
+    <id>Unique ID</id>
+    <title>Title</title>
+    <folder>Folder</folder>
+    <description>Description</description>
+  </album>
+`
+
+After that when you open the gallery press the gear icon at the bottom right.
+It will open a new page that will create the thumbs and album.xml in the folder.
+After that if you want you can edit that album.xml to add title and description for each picture.
+
 
 Required :
 PHP 5 ( and up )
 php5-imagick
+SimpleXML
