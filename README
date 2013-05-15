@@ -1,11 +1,13 @@
+
+# Add album
 Add manualy a record in albums.xml with format:
 
-```<album>
-    <id>Unique ID</id>
-    <title>Title</title>
-    <folder>Folder</folder>
-    <description>Description</description>
-  </album>```
+<album>
+   <id>Unique ID</id>
+   <title>Title</title>
+   <folder>Folder</folder>
+   <description>Description</description>
+</album>
 
 After that when you open the gallery press the gear icon at the bottom right.
 It will open a new page that will create the thumbs and album.xml in the folder.
