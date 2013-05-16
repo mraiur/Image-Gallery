@@ -1,27 +1,31 @@
 var previous = false,
 view;
 
-function view(id) {
-var div = document.getElementById(id);
-if(previous!==false && div.id != previous.id){
-    collapse(previous, function(){
-        expand(div);
-    });
-}else if(div.id != previous.id){
-    expand(div);
+function onViewLoad(){
+    if(window.location.hash && window.location.hash.length > 1){
+        expand( document.getElementById(window.location.hash.replace("#", "")));
+    }
 }
+
+function view(id) {
+    var div = document.getElementById(id);
+    if(previous!==false && div.id != previous.id){
+        collapse(previous, function(){
+            expand(div);
+        });
+    }else if(div.id != previous.id){
+        expand(div);
+    }
 }
 
 function collapse( obj, callback ){
-obj.style.webkitTransition ="all 0.5s";
-obj.style.webkitTransformOrigin ="top left";
-obj.style.webkitTransform ="translate(0px,0)";
-
-setTimeout(function(){ 
-    if(callback){
-        callback();
-    }
-}, 500);
+    obj.className = "file collapse";
+    setTimeout(function(){ 
+        if(callback){
+            callback();
+            obj.className = "file";
+        }
+    }, 500);
 }
 
 function expand( div ){
@@ -35,6 +39,8 @@ function expand( div ){
     if(previousBig && previousBig.tagName) {
         document.getElementById(previousBig.id.replace('-big', '')).appendChild(previousBig);
     }
+
+    window.location.hash = div.id;
 
     var preload = new Image();
     preload.src = bigImg.getAttribute('picsrc');
@@ -61,9 +67,7 @@ function expand( div ){
             //titleDiv.style.height = bigImg.height+'px';
             bigImg.src = bigImg.getAttribute('picsrc');
     }, 500);
-    div.style.webkitTransition ="all 0.5s";
-    div.style.webkitTransformOrigin ="top left";
-    div.style.webkitTransform ="translate(200px,0)";
-    //div.style.webkitTransform ="scale(2,2)";
+    div.className = "file expand";
+
     previous = div;
 }

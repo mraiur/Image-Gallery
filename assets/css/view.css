@@ -55,3 +55,21 @@
 #view .view-big .thumb{
     display: block;
 }
+
+.collapse{
+    transition: all 1s;
+    transform: translate(0px,0);
+    -ms-transition: all 1s;
+    -ms-transform: translate(0px,0);
+    -webkit-transition: all 1s;
+    -webkit-transform: translate(0px,0);
+}
+
+.expand{
+    transition: all 1s;
+    transform: translate(200px,0);
+    -ms-transition: all 1s;
+    -ms-transform: translate(200px,0);
+    -webkit-transition: all 1s;
+    -webkit-transform: translate(200px,0);
+}

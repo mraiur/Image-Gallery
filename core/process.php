@@ -28,6 +28,8 @@ if($hasThumbDir) {
             $im->cropThumbnailImage( 150, 150 );
             $im->writeImage(  $thumbDir.$file  );
             if($generated>2) {
+                saveAlbums($albumsId);
+                saveAlbum($album['folder'], $albumDescription);
                 header("Refresh: 15");
                 die();
             }

@@ -7,7 +7,7 @@
         <link rel="stylesheet" href="assets/css/style.css?v=1.0">
         <link rel="stylesheet" href="assets/css/view.css?v=1.0">
     </head>
-    <body>
+    <body onload="onViewLoad()">
         <div class="files">
             <a class="back" href="?">Back to albums</a>
         <?php
