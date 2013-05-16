@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title><?=$getView?></title>
+        <title><?=$album['title']?></title>
         <script type="text/javascript" src="assets/js/view.js?v=1.0"></script>
         <link rel="stylesheet" href="assets/css/style.css?v=1.0">
         <link rel="stylesheet" href="assets/css/view.css?v=1.0">
