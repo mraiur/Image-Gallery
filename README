@@ -1,5 +1,9 @@
 Copy example-albums.xml to albums.xml not to overwrite your xml on pull.
 
+# Simple "admins" 
+
+Add in core/config.php ( copy config.example.php ) in $users array a user with md5 of the password
+
 # Add album
 Add manualy a record in albums.xml with format:
 

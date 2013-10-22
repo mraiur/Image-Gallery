@@ -1,4 +1,7 @@
 <?php
+if(!defined("app")){
+    header("Location: index.php");
+}
 $hasThumbDir = true;
 $firstThumb = false;
 $thumbDir = $albumPath . "thumbs/";

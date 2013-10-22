@@ -1,73 +1,134 @@
-var previous = false,
-view;
-
+var viewIndex = 0;
 function onViewLoad(){
-    if(window.location.hash && window.location.hash.length > 1){
-        expand( document.getElementById(window.location.hash.replace("#", "")));
-    }
-}
-
-function view(id) {
-    var div = document.getElementById(id);
-    if(previous!==false && div.id != previous.id){
-        collapse(previous, function(){
-            expand(div);
-        });
-    }else if(div.id != previous.id){
-        expand(div);
-    }
-}
-
-function collapse( obj, callback ){
-    obj.className = "file collapse";
-    setTimeout(function(){ 
-        if(callback){
-            callback();
-            obj.className = "file";
+    generateThumbs();
+     	
+    $( "body" ).append( "<div id='preloader' style='display:none;'></div>" );
+    refit();
+    $(window).bind('resize', refit);
+    window.scrollTo(0,0);
+    
+    var loadIndex = 0;
+    if(window.location.hash){
+        loadIndex = window.location.hash.replace("#", "");
+        if( Math.abs(loadIndex) > 0 || Math.abs(loadIndex) < files.length ){
+            loadIndex = Math.abs(loadIndex);
         }
-    }, 500);
+    }
+    viewImage(loadIndex);
+
+    $(document.documentElement).keyup(function (event) {
+
+        // handle cursor keys
+        if (event.keyCode == 37) {
+            // go left
+            if( viewIndex-1 > 0 ){
+                viewImage(viewIndex-1);
+            }
+        } else if (event.keyCode == 39) {
+            // go right
+            if( viewIndex+1 < files.length ){
+                viewImage(viewIndex+1);
+            }
+        } else if( event.keyCode === 8) { 
+            window.location = "?";
+        }
+    });
+
+    $("#view-container-text-toggle").on('click', function(){
+        if( $("#view-container-text").hasClass("hidden") ){
+            $("#view-container-text").removeClass("hidden");
+        } else {
+            $("#view-container-text").addClass("hidden");
+        }
+    });
 }
 
-function expand( div ){
-
-    var view = document.getElementById('view'),
-        expandDiv = div.getElementsByClassName('view-big')[0];
-
-    var bigImg = expandDiv.getElementsByClassName('img')[0];
-
-    var previousBig = view.childNodes[0];
-    if(previousBig && previousBig.tagName) {
-        document.getElementById(previousBig.id.replace('-big', '')).appendChild(previousBig);
+function refit() {
+    
+    var viewportwidth;
+    var viewportheight;
+    
+    // the more standards compliant browsers (mozilla/netscape/opera/IE7) use window.innerWidth and window.innerHeight
+    
+    try{
+        viewportwidth = window.innerWidth,
+        viewportheight = window.innerHeight
+    } catch( error ){
+        alert("Unsupported browser");
     }
 
-    window.location.hash = div.id;
+    var sizes = {
+        'width': viewportwidth+"px",
+        'height': ( viewportheight- 180 - 50)+"px"
+    };
 
-    var preload = new Image();
-    preload.src = bigImg.getAttribute('picsrc');
-    setTimeout(function(){
-            var imgRatio = preload.width / preload.height,
-                viewRatio = view.offsetWidth / view.offsetHeight;
+    $(".header .mod").css( "left",  ( (viewportwidth - 70) / 2) + "px");
 
-            if( viewRatio > imgRatio ) {
-                bigImg.width = view.offsetHeight * imgRatio;
-            } else {
-                bigImg.height = view.offsetWidth / imgRatio;
-            }
-            view.appendChild(expandDiv);
+    $("#view-container").css(sizes);
+    $("#view-container-img").css(sizes);
+    $("#view-container-loader").css(sizes);
+}
 
-            var imgDiv = expandDiv.getElementsByClassName('thumb')[0],
-                titleDiv = expandDiv.getElementsByClassName('title')[0];
+function thumbTpl(pic, index){
+    return [
+        '<a href="#'+index+'" class="file" id="cnt-'+index+'">',
+        '<div class="file-inner">',
+        '<img src="./'+album.folder+'/thumbs/'+pic.file+'" alt="" border="0" />',
+        '',
+        '',
+        '</div>',
+        '</a>'
+    ].join('');
+}
 
-            imgDiv.style.width = view.offsetWidth+"px";
-            imgDiv.style.height = view.offsetHeight+"px";
+function viewTpl(pic, index){
+    return [
+        '<img src="./'+album.folder+'/'+pic.file+'" alt="" border="0" />'
+    ].join('');
+}
 
-            titleDiv.style.width = bigImg.width+"px";
-            titleDiv.style.top = (view.offsetHeight-40)+'px';
+function generateThumbs(){
+    
+    var thumbs = "";
+    //file: "DSCI3547.JPG", title: "", description: ""
 
-            //titleDiv.style.height = bigImg.height+'px';
-            bigImg.src = bigImg.getAttribute('picsrc');
-    }, 500);
-    div.className = "file expand";
+    for(var cnt = 0, len = files.length; cnt < len; cnt++ ){
+        thumbs+= thumbTpl(files[cnt], cnt);
+    }
 
-    previous = div;
+    $(".thumb-container .scroll").css("width", ( files.length * 167 ) + "px").html(thumbs);
+    
+    $(".thumb-container .scroll .file").on('click', function(){
+        var index = $(this).attr('id').replace("cnt-", '');
+        viewImage(index);
+
+    });
+}
+
+function viewImage(index){
+    $("#cnt-"+viewIndex).removeClass("active");
+    viewIndex = index;
+    window.location.hash = "#"+viewIndex;
+    $("#cnt-"+viewIndex).addClass("active");
+
+    files[index].file = files[index].file+"?rnd="+Math.random();
+
+    var tpl = viewTpl(files[index]);
+    var img = new Image();
+    
+    img.src = './'+album.folder+'/'+files[index].file;
+
+    $("#view-container-loader").css('display', 'block');
+    $("#view-container-img").css('display', 'none');
+    img.onload = function(){
+        $("#view-container-img").html(tpl);
+        $("#view-container-loader").css('display', 'none');
+        $("#view-container-img").css('display', 'block');
+        $(".thumb-container").scrollLeft( 167 * ( index - 1) );
+    };
+    $("#preloader").append(img);
+
+    if(files[index].title !== "" || files[index].description !== ""){
+        $("#view-container-text").html('<h2>'+files[index].title+'</h2><br />'+files[index].description);
+    }
 }

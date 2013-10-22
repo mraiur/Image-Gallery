@@ -3,10 +3,13 @@
     <head>
         <meta charset="utf-8">
         <title>Gallery</title>
+        <script type="text/javascript" src="assets/js/jquery.min.js"></script>
+        <script type="text/javascript" src="assets/js/main.js"></script>
         <link rel="stylesheet" href="assets/css/style.css?v=1.1">
         <link rel="stylesheet" href="assets/css/albums.css?v=1.1">
     </head>
     <body>
+        <?php require_once "header.php"; ?>
         <div class="list-albums">
         <?php
         foreach($albums as $album) {
@@ -29,7 +32,9 @@
                         <div class="description">
                             <a href="<?=$link?>"><?=$description?></a>
                         </div>
-                        <a href="<?=$processLink?>" target="_blank" class="processLink"></a>
+                        <?php if($_SESSION['logged']) {  ?>
+                            <a href="<?=$processLink?>" target="_blank" class="processLink"></a>
+                        <?php } ?>
                         <div class="clear"></div>
                     </div>
                     <div class="clear"></div>   
