@@ -44,7 +44,7 @@ if(isset($_POST['loggout'])){
 if( $getView && isset($albumsId[$getView])) {
 	$view = ".";
     $album = $albumsId[$getView];
-	$albumPath .= $album['folder']."/";
+	$albumPath .= 'albums/'.$album['folder']."/";
 
     $albumDescription = readAlbumXML($album['folder']);
     

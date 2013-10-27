@@ -64,11 +64,12 @@ function readAlbumXML($folder){
     global $path;
     $return = array();
 
-    if(file_exists($path.$folder."/album.xml")) {
-        $xml = simplexml_load_file($path.$folder."/album.xml");
+    if(file_exists($path.'albums/'.$folder."/album.xml")) {
+        $xml = simplexml_load_file($path.'albums/'.$folder."/album.xml");
 
         foreach( $xml->file as $file) {
             $return[] = array(
+                'maxSize' => (string) $file->maxSize,
                 'file' => (string) $file->file,
                 'title' => (string) $file->title,
                 'description' => (string) $file->description
@@ -96,6 +97,6 @@ function saveAlbum($folder, $data){
     $dom->formatOutput = true;
     $dom->loadXML($output);
 
-    file_put_contents($path.$folder."/album.xml", $dom->saveXML());
+    file_put_contents($path.'albums/'.$folder."/album.xml", $dom->saveXML());
 }
 ?>

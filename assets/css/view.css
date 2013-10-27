@@ -86,3 +86,43 @@
 .thumb-container .scroll .file .file-inner{
     padding: 5px 0px 0px 5px;
 }
+
+
+#previous-image, #next-image{ 
+    display: none; 
+    width:30px; 
+    height: 30px; 
+    display: block; 
+    position: absolute; 
+    z-index: 2000;
+    top:40%;
+    cursor: pointer;
+}
+
+#previous-image{
+    background: url(../images/previous.png) center center no-repeat;
+}
+#next-image{
+    right:0px;
+    background: url(../images/next.png) center center no-repeat;
+}
+
+#hide-show-thumbs{
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-top:solid #DEE6EE 1px;
+    border-left:solid #DEE6EE 1px;
+    border-right:solid #DEE6EE 1px;
+    position: fixed;
+    cursor: pointer;
+    bottom:182px;
+    left:49%;
+    background-color:#DEE6EE;
+    color: #000000;
+    line-height: 2px;
+    padding-bottom:2px;
+    text-align: center;
+    width: 80px;
+    height: 6px;
+    display: block;
+}

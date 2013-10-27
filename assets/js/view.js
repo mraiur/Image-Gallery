@@ -1,4 +1,8 @@
 var viewIndex = 0;
+var viewportwidth;
+var viewportheight;
+var maxViewSize = 0;
+
 function onViewLoad(){
     generateThumbs();
      	
@@ -45,9 +49,6 @@ function onViewLoad(){
 
 function refit() {
     
-    var viewportwidth;
-    var viewportheight;
-    
     // the more standards compliant browsers (mozilla/netscape/opera/IE7) use window.innerWidth and window.innerHeight
     
     try{
@@ -57,9 +58,20 @@ function refit() {
         alert("Unsupported browser");
     }
 
+    for(var key in sizeConfig) {
+        if( sizeConfig[key].width < viewportwidth && sizeConfig[key].height < viewportheight ){
+            maxViewSize = key;
+        }
+    }
+    //maxViewSize
+    var removeHeight = 0;
+    if($(".thumb-container").css("display") === 'block'){
+        removeHeight = 180;
+    }
+
     var sizes = {
         'width': viewportwidth+"px",
-        'height': ( viewportheight- 180 - 50)+"px"
+        'height': ( viewportheight- removeHeight - 50)+"px"
     };
 
     $(".header .mod").css( "left",  ( (viewportwidth - 70) / 2) + "px");
@@ -73,7 +85,7 @@ function thumbTpl(pic, index){
     return [
         '<a href="#'+index+'" class="file" id="cnt-'+index+'">',
         '<div class="file-inner">',
-        '<img src="./'+album.folder+'/thumbs/'+pic.file+'" alt="" border="0" />',
+        '<img src="./albums/'+album.folder+'/thumbs/'+pic.file+'" alt="" border="0" />',
         '',
         '',
         '</div>',
@@ -82,8 +94,9 @@ function thumbTpl(pic, index){
 }
 
 function viewTpl(pic, index){
+    var size = getViewSubfolder(pic);
     return [
-        '<img src="./'+album.folder+'/'+pic.file+'" alt="" border="0" />'
+        '<img src="./albums/'+album.folder+'/'+size+pic.file+'" alt="" border="0" />'
     ].join('');
 }
 
@@ -105,7 +118,33 @@ function generateThumbs(){
     });
 }
 
+function getViewSubfolder( file ){
+    if(file.maxSize) {
+        if( file.maxSize >= maxViewSize){
+            size = maxViewSize+'/';
+        } else if( file.maxSize > 0){
+            size = '1/';
+        }
+    } else {
+        size = '';
+    }
+    return size;
+}
+
+function viewNext(){
+    if( files.length > viewIndex+1){
+        viewImage(viewIndex+1);
+    }
+}
+
+function viewPrevious(){
+    if( viewIndex-1 >= 0){
+        viewImage(viewIndex-1);
+    }
+}
+
 function viewImage(index){
+    index = index*1;
     $("#cnt-"+viewIndex).removeClass("active");
     viewIndex = index;
     window.location.hash = "#"+viewIndex;
@@ -113,10 +152,22 @@ function viewImage(index){
 
     files[index].file = files[index].file+"?rnd="+Math.random();
 
+    $("#previous-image").hide();
+    $("#next-image").hide();
+
+    if( index-1 >= 0){
+        $("#previous-image").show();
+    }
+
+    if( files.length > index+1){
+        $("#next-image").show();
+    }
+
     var tpl = viewTpl(files[index]);
     var img = new Image();
-    
-    img.src = './'+album.folder+'/'+files[index].file;
+    var size = getViewSubfolder(files[index]);
+
+    img.src = './albums/'+album.folder+'/'+size+files[index].file;
 
     $("#view-container-loader").css('display', 'block');
     $("#view-container-img").css('display', 'none');
@@ -126,9 +177,22 @@ function viewImage(index){
         $("#view-container-img").css('display', 'block');
         $(".thumb-container").scrollLeft( 167 * ( index - 1) );
     };
+    $("#preloader").empty();
     $("#preloader").append(img);
 
     if(files[index].title !== "" || files[index].description !== ""){
         $("#view-container-text").html('<h2>'+files[index].title+'</h2><br />'+files[index].description);
     }
+}
+
+function toggleThumbs(){
+    //$("#hide-show-thumbs")
+    if( $(".thumb-container").css("display") === 'block'){
+        $(".thumb-container").css("display", 'none');
+        $("#hide-show-thumbs").css('bottom', '0px');
+    } else  {
+        $(".thumb-container").css("display", 'block');
+        $("#hide-show-thumbs").css('bottom', '182px');
+    }
+    refit();
 }

@@ -15,7 +15,7 @@
         foreach($albums as $album) {
             $title = $album['title'];
             $description = $album['description'];
-            $thumb = ( isset($album['thumb']) && $album['thumb']!="" )?$album['thumb']:"assets/no-thumb.png";
+            $thumb = ( isset($album['thumb']) && $album['thumb']!="" )?'albums/'.$album['thumb']:"assets/no-thumb.png";
             $link = "?view=".$album['id'];
             $processLink = "?view=".$album['id']."&process=true";
                 ?>

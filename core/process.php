@@ -8,7 +8,7 @@ $thumbDir = $albumPath . "thumbs/";
 
 if( !is_dir($thumbDir ) )
 {
-    if( !mkdir($thumbDir, 0755) )
+    if( mkdir($thumbDir, 0755) === false )
     {
         echo '<div>Cant create thumbs dir</div>';
         $hasThumbDir = false;
@@ -30,29 +30,50 @@ if($hasThumbDir) {
             $im = new imagick( $albumPath.$file );
             $im->cropThumbnailImage( 150, 150 );
             $im->writeImage(  $thumbDir.$file  );
-            if($generated>2) {
-                saveAlbums($albumsId);
-                saveAlbum($album['folder'], $albumDescription);
-                header("Refresh: 15");
-                die();
+
+            $originalSize = getimagesize($albumPath.$file);
+            $maxSize = 0;
+
+            foreach($image_sizes as $size => $sizeConfig ){
+                $sizePath = $albumPath . $size ."/";
+
+                if(!is_dir($sizePath) ) {
+                    if( mkdir($sizePath, 0755) === false ) {
+                        break;
+                    }
+                }
+
+                if($originalSize[0] > $sizeConfig['width'] && $originalSize[1] > $sizeConfig['height']) {
+                    $resizeObj = new imagick( $albumPath.$file );
+                    $resizeObj->resizeImage( $sizeConfig['width'], $sizeConfig['height'], imagick::FILTER_LANCZOS, 1);
+                    $resizeObj->writeImage( $sizePath . $file );
+                    $maxSize = $size;
+                } else {
+
+                }
             }
-            $generated++;
-            echo '<div>image: '.$file.'</div>';
 
             $albumDescription[] = array(
+                'maxSize' => $maxSize,
                 'file' => $file
             );
+            saveAlbums($albumsId);
+            saveAlbum($album['folder'], $albumDescription);
+            header("Refresh: 2");
+            echo "<div>generate...</div>";
+            die();
         }
     }
+
+    if($generated === 0) {
     ?>
-        <div>new thumbs <?=$generated?></div>
+        <div>Finished</div>
         <script type="text/javascript">
         setTimeout(function(){
-            window.close();
+            //window.close();
         }, 5000);
         </script>
     <?php
-    saveAlbums($albumsId);
-    saveAlbum($album['folder'], $albumDescription);
+    }
 }
 ?>

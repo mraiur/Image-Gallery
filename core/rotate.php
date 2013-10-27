@@ -4,9 +4,17 @@ if(!defined("app")){
 }
 $file['file'] = substr($file['file'], 0, strpos($file['file'], "?"));
 $list = array(
-    $path.$directory.'/'.$file['file'],
-    $path.$directory.'/thumbs/'.$file['file']
+    $path.'albums/'.$directory.'/'.$file['file'],
+    $path.'albums/'.$directory.'/thumbs/'.$file['file']
 );
+
+
+foreach($image_sizes as $size => $sizeConfig ){
+    if( file_exists($path.'albums/'.$directory.'/'.$size.'/'.$file['file']) ){
+        array_push($list, $path.'albums/'.$directory.'/'.$size.'/'.$file['file']);
+    }
+}
+
 foreach($list as $img_file ){
 
     $im = new imagick( $img_file );

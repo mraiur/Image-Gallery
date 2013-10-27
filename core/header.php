@@ -4,8 +4,12 @@ if(!defined("app")){
 }
 ?>
 <div class="header">
-    <a class="back" href="?">Back to albums</a>
     <?php
+    if($view){
+        ?>
+        <a class="back" href="?">Back to albums</a>
+        <?php
+    }
     if($view && $_SESSION['logged'] === true){
         ?>
         <span class="mod">
