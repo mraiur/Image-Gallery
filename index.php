@@ -19,6 +19,7 @@ $getProcess = isset($_GET['process'])?strip_tags(trim($_GET['process'])):false;
 $rotate = isset($_GET['rotate'])?strip_tags(trim($_GET['rotate'])):false;
 $direction = ( isset($_GET['direction']) && in_array($_GET['direction'], array('left', 'right')))?$_GET['direction']:'left';
 $file = isset($_POST['file'])?$_POST['file']:null;
+$getFile = isset($_GET['file'])?$_GET['file']:null;
 $directory = isset($_POST['directory'])?$_POST['directory']:null;
 
 require_once $path.'core/functions.php';

@@ -58,9 +58,14 @@ function refit() {
         alert("Unsupported browser");
     }
 
+	var minHeight = viewportheight;
+	var minWidth = viewportwidth;
+
     for(var key in sizeConfig) {
-        if( sizeConfig[key].width < viewportwidth && sizeConfig[key].height < viewportheight ){
+        if( sizeConfig[key].width > minWidth && sizeConfig[key].height > minHeight ){
             maxViewSize = key;
+	    minWidth = sizeConfig[key].width;
+	    minHeight = sizeConfig[key].height;
         }
     }
     //maxViewSize
@@ -119,14 +124,13 @@ function generateThumbs(){
 }
 
 function getViewSubfolder( file ){
+	var size = '';
     if(file.maxSize) {
         if( file.maxSize >= maxViewSize){
-            size = maxViewSize+'/';
+            size = (maxViewSize===0)?'':(maxViewSize+'/');
         } else if( file.maxSize > 0){
             size = '1/';
         }
-    } else {
-        size = '';
     }
     return size;
 }
