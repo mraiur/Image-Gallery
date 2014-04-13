@@ -23,3 +23,9 @@ Required :
 PHP 5 ( and up )
 php5-imagick
 SimpleXML
+
+
+#TODO
+
+Add edit option for the albums.xml
+Add a option to force display size for the images, not to use only the auto-calculating method.
