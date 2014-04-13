@@ -32,19 +32,28 @@ if(!$getFile){
             $fileCounter = count($albumDescription)-1;
             saveAlbums($albumsId);
             saveAlbum($album['folder'], $albumDescription);
-            header("Location: ?view=".$getView.'&process=true&file='.$proccessFile.'&step=0&fileCounter='.$fileCounter);
+            header("Location: ?view=".$getView.'&process=true&file='.$proccessFile.'&step=0&fileCounter='.$fileCounter.'&first=true');
             die();
         }
     }
 } else if( $getFile && $getStep !== null ){
+
     if($getStep === 0) {
         $im = new imagick( $albumPath.$getFile );
         $im->cropThumbnailImage( 150, 150 );
         $im->writeImage(  $thumbDir.$getFile  );
+
+        foreach( $albumsId as $cnt => $row ){
+            if($row['id'] == $getView){
+                $albumsId[$cnt]['thumb'] = $album['folder']."/thumbs/".$getFile;
+            }
+        }
+        saveAlbums($albumsId);
         header("Refresh:1;url=?view=".$getView.'&process=true&file='.$getFile.'&step=1&fileCounter='.$getFileCoutner);
         echo "<div>Generate thumb</div>";
         die();
     } else if( $getStep <= max(array_keys($image_sizes)) ){
+        
         $originalSize = getimagesize($albumPath.$getFile);
 
         $sizePath = $albumPath . $getStep ."/";
@@ -66,7 +75,7 @@ if(!$getFile){
         }
 
         $albumDescription[$getFileCoutner]['maxSize'] = $maxSize;
-        saveAlbums($albumsId);
+        //saveAlbums($albumsId);
         saveAlbum($album['folder'], $albumDescription);
 
         header("Refresh:1;url=?view=".$getView.'&process=true&file='.$getFile.'&step='.($getStep+1).'&fileCounter='.$getFileCoutner);

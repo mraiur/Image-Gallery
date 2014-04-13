@@ -74,9 +74,19 @@
     height: 160px;
     display:block;
     float:left;
-    border:solid #DEE6EE 1px;
+        border: 1px solid #DEE6EE;    
+    -webkit-transition: border 0.1s linear, box-shadow 0.1s linear;
+       -moz-transition: border 0.1s linear, box-shadow 0.1s linear;
+            transition: border 0.1s linear, box-shadow 0.1s linear;
     border-radius: 5px;
     margin-right:5px;
+}
+
+.thumb-container .scroll .file:hover{
+    border-color: #409FFF;
+    -webkit-box-shadow: 0 0 5px #409FFF;
+       -moz-box-shadow: 0 0 5px #409FFF;
+            box-shadow: 0 0 5px #409FFF;
 }
 
 .thumb-container .scroll .file.active{
@@ -90,8 +100,9 @@
 
 #previous-image, #next-image{ 
     display: none; 
-    width:30px; 
-    height: 30px; 
+    width:24px;
+    height: 24px;
+    border-radius: 10px;
     display: block; 
     position: absolute; 
     z-index: 2000;
@@ -105,6 +116,13 @@
 #next-image{
     right:0px;
     background: url(../images/next.png) center center no-repeat;
+}
+
+#next-image:hover, #previous-image:hover{
+    border-color: #409FFF;
+    -webkit-box-shadow: 0 0 5px #409FFF;
+       -moz-box-shadow: 0 0 5px #409FFF;
+            box-shadow: 0 0 5px #409FFF;
 }
 
 #hide-show-thumbs{

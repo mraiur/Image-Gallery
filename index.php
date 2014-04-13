@@ -21,6 +21,7 @@ $direction = ( isset($_GET['direction']) && in_array($_GET['direction'], array('
 $file = isset($_POST['file'])?$_POST['file']:null;
 $getFile = isset($_GET['file'])?$_GET['file']:null;
 $directory = isset($_POST['directory'])?$_POST['directory']:null;
+$getIsFirst = isset($_GET['first'])?$_GET['first']:false;
 
 require_once $path.'core/functions.php';
 require_once $path.'core/config.php';

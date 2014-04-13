@@ -3,27 +3,48 @@
 }
 
 .list-albums .album{
-    border:solid #DEE6EE 1px;
-    border-radius: 5px;
-    padding:5px;
-    margin-bottom:5px;
+    position: relative;
+    width:150px;
+    height:150px;
+    float:left;
+    margin: 10px 10px 0px 0px;
+
+    border: 2px solid #DEE6EE;    
+    -webkit-transition: border 0.1s linear, box-shadow 0.1s linear;
+       -moz-transition: border 0.1s linear, box-shadow 0.1s linear;
+            transition: border 0.1s linear, box-shadow 0.1s linear;
 }
 
+.list-albums .album:hover{
+    border-color: #409FFF;
+    -webkit-box-shadow: 0 0 5px #409FFF;
+       -moz-box-shadow: 0 0 5px #409FFF;
+            box-shadow: 0 0 5px #409FFF;
+}
+
+
+
 .list-albums .album .thumb{
+    position: absolute;
+    z-index: 10;
+    top:0px;
+    left:0px;
     text-align: center;
-    width:150px;
-    height: 150px;
     display: block;
-    border:solid #DEE6EE 1px;
-    border-radius: 5px;
-    padding:5px;
-    margin:5px 5px 5px 5px;
     float:left;
 }
 
-.list-albums .album .info{ 
-    position: relative; 
-    margin-left:170px; 
+.list-albums .album .info{
+    position: absolute;
+    text-align: center;
+    width: 150px;
+    bottom:0px;
+    z-index: 50;
+}
+
+.list-albums .album:hover .info{
+    background: rgb(0, 0, 0) transparent;
+    background: rgba(0, 0, 0, 0.5);
 }
 
 .list-albums .album .info .title{ 
