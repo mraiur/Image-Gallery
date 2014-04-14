@@ -15,6 +15,15 @@ function getFormat( $file_name )
 	return substr(strrchr($file_name,'.'),1);
 }
 
+function isLogged(){
+    if(isset($_SESSION['logged'])){
+        if($_SESSION['logged']===true){
+            return true;
+        }
+    }
+    return false;
+}
+
 function readAlbumsXML(){
     global $path;
     $xml = simplexml_load_file($path."albums.xml");

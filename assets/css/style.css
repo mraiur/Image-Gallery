@@ -59,29 +59,32 @@ a:hover {
     margin-right: 8px;
 }
 
-.loginbtn{
+
+
+.mainbtn{
     width: 28px;
     height: 28px;
     display: block;
     float: right;
     margin: 0px 2px 2px 0px;
     background-repeat: no-repeat;
-}
-
-.loginbtn.active{
-    background-image: url(../images/active-login.png);
-}
-
-.loginbtn.notactive{
-    background-image: url(../images/notactive-login.png);
-}
-
-#login_form .login-button{
     color: #5BABF9;
     background-color:#FFFFFF;
     border: solid #DEE6EE 1px;
     border-radius: 5px;
-    padding: 2px 10px 2px 10px;
+    
+}
+
+
+.edit-albums{
+    background: url(../images/albums.png) center center no-repeat;
+}
+.mainbtn.active{
+    background-image: url(../images/active-login.png);
+}
+
+.mainbtn.notactive{
+    background-image: url(../images/notactive-login.png);
 }
 
 .header input{

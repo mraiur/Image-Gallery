@@ -22,11 +22,14 @@ if(!defined("app")){
     <?php if($_SESSION['logged'] === true) { ?>
     <form action="" method="post">
         <input type="hidden" name="loggout" value="1" />
-        <input type="submit" value="" class="loginbtn notactive" />
+        <input type="submit" value="" class="mainbtn notactive" />
     </form>
-    
-    <?php } else { ?>
-    <a href="#" id="login_form_toggle" class="loginbtn notactive"></a>
+    <?php if( !$view){ 
+        $editLink = "?editalbums=true"; ?>
+        <a href="<?=$editLink?>" class="mainbtn edit-albums"></a>
+    <?php }  
+    } else { ?>
+    <a href="#" id="login_form_toggle" class="mainbtn notactive"></a>
     <span id="login_form">
         <form action="" method="post">
             Username : <input type="text" name="username" /> 

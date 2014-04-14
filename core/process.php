@@ -1,6 +1,6 @@
 <?php
 //http://gallery.mraiur.com/?view=4&process=true
-if(!defined("app")){
+if(!defined("app") || isLogged() === false){
     header("Location: index.php");
 }
 $hasThumbDir = true;
