@@ -69,7 +69,7 @@ if(!$getFile){
 
         if($originalSize[0] > $sizeConfig['width'] && $originalSize[1] > $sizeConfig['height']) {
             $resizeObj = new imagick( $albumPath.$getFile );
-            $resizeObj->resizeImage( $sizeConfig['width'], $sizeConfig['height'], imagick::FILTER_LANCZOS, 1);
+            $resizeObj->resizeImage( $sizeConfig['width'], $sizeConfig['height'], imagick::FILTER_LANCZOS, 1, true);
             $resizeObj->writeImage( $sizePath . $getFile );
             $maxSize = $getStep;
         }
