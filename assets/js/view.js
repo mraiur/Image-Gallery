@@ -2,7 +2,16 @@ var viewIndex = 0;
 var viewportwidth;
 var viewportheight;
 var maxViewSize = 0;
-
+function getCurrentIndex(){
+    var loadIndex = 0;
+    if(window.location.hash){
+        loadIndex = window.location.hash.replace("#", "");
+        if( Math.abs(loadIndex) > 0 || Math.abs(loadIndex) < files.length ){
+            loadIndex = Math.abs(loadIndex);
+        }
+    }
+    return loadIndex;
+}
 function onViewLoad(){
     generateThumbs();
      	
@@ -11,15 +20,6 @@ function onViewLoad(){
     $(window).bind('resize', refit);
     window.scrollTo(0,0);
     
-    var loadIndex = 0;
-    if(window.location.hash){
-        loadIndex = window.location.hash.replace("#", "");
-        if( Math.abs(loadIndex) > 0 || Math.abs(loadIndex) < files.length ){
-            loadIndex = Math.abs(loadIndex);
-        }
-    }
-    viewImage(loadIndex);
-
     $(document.documentElement).keyup(function (event) {
 
         // handle cursor keys
@@ -62,10 +62,10 @@ function refit() {
 	var minWidth = viewportwidth;
 
     for(var key in sizeConfig) {
-        if( sizeConfig[key].width > minWidth && sizeConfig[key].height > minHeight ){
+        if( sizeConfig[key].width < minWidth && sizeConfig[key].height < minHeight && maxViewSize < key){
             maxViewSize = key;
-	    minWidth = sizeConfig[key].width;
-	    minHeight = sizeConfig[key].height;
+    	    minWidth = sizeConfig[key].width;
+	        minHeight = sizeConfig[key].height;
         }
     }
     //maxViewSize
@@ -84,6 +84,10 @@ function refit() {
     $("#view-container").css(sizes);
     $("#view-container-img").css(sizes);
     $("#view-container-loader").css(sizes);
+
+    var loadIndex = getCurrentIndex();
+    viewImage(loadIndex);
+
 }
 
 function thumbTpl(pic, index){
