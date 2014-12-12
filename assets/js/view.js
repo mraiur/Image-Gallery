@@ -94,10 +94,11 @@ function refit() {
 }
 
 function thumbTpl(pic, index){
+    
     return [
-        '<a href="#'+index+'" class="file" id="cnt-'+index+'">',
+        '<a href="#'+index+'" class="file" id="cnt-'+index+'" style="left:'+(index*167)+'px;">',
         '<div class="file-inner">',
-        '<img src="./albums/'+album.folder+'/thumbs/'+pic.file+'" alt="" border="0" />',
+        '<img src="./albums/'+album.folder+'/thumbs/'+pic.file+'"  alt="" border="0" />',
         '',
         '',
         '</div>',
@@ -108,7 +109,7 @@ function thumbTpl(pic, index){
 function viewTpl(pic, index){
     var size = getViewSubfolder(pic),
         style = 'max-width:'+ ( $("#view-container-img").width()*1 - 70)+"px;"+
-            "max-height:"+ ( $("#view-container-img").height()*1 - 70)+"px";
+            "max-height:"+ ( $("#view-container-img").height()*1 - 70)+"px;";
     
     return [
         '<img src="./albums/'+album.folder+'/'+size+pic.file+'" style="'+style+'" alt="" border="0" />'
@@ -117,19 +118,54 @@ function viewTpl(pic, index){
 
 function generateThumbs(){
     
-    var thumbs = "";
-    //file: "DSCI3547.JPG", title: "", description: ""
-
-    for(var cnt = 0, len = files.length; cnt < len; cnt++ ){
+    var thumbs = "",
+        len = files.length;
+    
+    if(len > 20){
+        len = 20;
+    }
+    
+    for(var cnt = 0; cnt < len; cnt++ ){
+        files[cnt].rendered = true;
         thumbs+= thumbTpl(files[cnt], cnt);
     }
 
-    $(".thumb-container .scroll").css("width", ( files.length * 167 ) + "px").html(thumbs);
+    var offset = {
+        top:0,
+        left:0
+    }, 
+    startIndex = 0,
+    endIndex = 0;
+    thumbContainer = $(".thumb-container"),
+    scrollContainer = $(".thumb-container .scroll");
     
+    thumbContainer
+        .scroll(function(e){
+            offset = scrollContainer.offset();
+            index = Math.floor( Math.abs(offset.left / 167) );
+            endIndex = (index+20 < files.length)?index+20:files.length;
+            thumbs = '';
+            
+            for(; index < endIndex; index++ ){
+                if(typeof files[index].rendered == 'undefined'){
+                    files[index].rendered = true;
+                    thumbs+= thumbTpl(files[index], index);
+                }
+            }
+            scrollContainer.append(thumbs)
+        });
+    
+    scrollContainer
+        .css("width", ( files.length * 167 ) + "px")
+        .html(thumbs);
+    
+    attachThumbEvents();
+}
+
+function attachThumbEvents(){
     $(".thumb-container .scroll .file").on('click', function(){
         var index = $(this).attr('id').replace("cnt-", '');
         viewImage(index);
-
     });
 }
 

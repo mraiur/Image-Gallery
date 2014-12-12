@@ -68,18 +68,24 @@
     z-index: 200;
     background: url(../images/loading.gif) center center no-repeat #FFFFFF;
 }
-
+.thumb-container .scroll{
+    height: 160px;
+    display:block;
+    position:relative;
+}
 .thumb-container .scroll .file{
     width: 160px;
     height: 160px;
     display:block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
     float:left;
         border: 1px solid #DEE6EE;    
     -webkit-transition: border 0.1s linear, box-shadow 0.1s linear;
        -moz-transition: border 0.1s linear, box-shadow 0.1s linear;
             transition: border 0.1s linear, box-shadow 0.1s linear;
     border-radius: 5px;
-    margin-right:5px;
 }
 
 .thumb-container .scroll .file:hover{
