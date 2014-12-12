@@ -60,9 +60,13 @@ function refit() {
 
 	var minHeight = viewportheight;
 	var minWidth = viewportwidth;
+    
+    maxViewSize = 0; // when doing a refit not to apply for old boundries
+    var viewDivHeight = $("#view-container-img").height()*1,
+        viewDivWidth = $("#view-container-img").width()*1;
 
     for(var key in sizeConfig) {
-        if( sizeConfig[key].width < minWidth && sizeConfig[key].height < minHeight && maxViewSize < key){
+        if( sizeConfig[key].width >= viewDivWidth && sizeConfig[key].height >= viewDivHeight && maxViewSize === 0){
             maxViewSize = key;
     	    minWidth = sizeConfig[key].width;
 	        minHeight = sizeConfig[key].height;
@@ -84,7 +88,6 @@ function refit() {
     $("#view-container").css(sizes);
     $("#view-container-img").css(sizes);
     $("#view-container-loader").css(sizes);
-
     var loadIndex = getCurrentIndex();
     viewImage(loadIndex);
 
@@ -103,9 +106,12 @@ function thumbTpl(pic, index){
 }
 
 function viewTpl(pic, index){
-    var size = getViewSubfolder(pic);
+    var size = getViewSubfolder(pic),
+        style = 'max-width:'+ ( $("#view-container-img").width()*1 - 70)+"px;"+
+            "max-height:"+ ( $("#view-container-img").height()*1 - 70)+"px";
+    
     return [
-        '<img src="./albums/'+album.folder+'/'+size+pic.file+'" alt="" border="0" />'
+        '<img src="./albums/'+album.folder+'/'+size+pic.file+'" style="'+style+'" alt="" border="0" />'
     ].join('');
 }
 
@@ -191,7 +197,7 @@ function viewImage(index){
     if(files[index].title !== "" || files[index].description !== ""){
         $("#view-container-text").html('<h2>'+files[index].title+'</h2><br />'+files[index].description);
     }
-}
+    }
 
 function toggleThumbs(){
     //$("#hide-show-thumbs")
