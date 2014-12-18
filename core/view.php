@@ -9,6 +9,7 @@
         var sizeConfig = <?=json_encode($image_sizes)?>;
         </script>
         <script type="text/javascript" src="assets/js/jquery.min.js"></script>
+        <script type="text/javascript" src="assets/js/jquery.mousewheel.js"></script>
         <script type="text/javascript" src="assets/js/main.js"></script>
         <script type="text/javascript" src="assets/js/view.js?v=1.0"></script>
         <link rel="stylesheet" href="assets/css/style.css?v=1.0">

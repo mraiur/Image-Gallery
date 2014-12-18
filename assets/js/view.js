@@ -45,6 +45,11 @@ function onViewLoad(){
             $("#view-container-text").addClass("hidden");
         }
     });
+
+    $('html, body, *').mousewheel(function(e, delta) {
+        this.scrollLeft -= (delta * 40);
+        e.preventDefault();
+    });
 }
 
 function refit() {
@@ -152,7 +157,8 @@ function generateThumbs(){
                     thumbs+= thumbTpl(files[index], index);
                 }
             }
-            scrollContainer.append(thumbs)
+            scrollContainer.append(thumbs);
+            attachThumbEvents();
         });
     
     scrollContainer
@@ -163,10 +169,10 @@ function generateThumbs(){
 }
 
 function attachThumbEvents(){
-    $(".thumb-container .scroll .file").on('click', function(){
+    $(".thumb-container .scroll .file:not(.attached-events)").on('click', function(){
         var index = $(this).attr('id').replace("cnt-", '');
         viewImage(index);
-    });
+    }).addClass('attached-events');
 }
 
 function getViewSubfolder( file ){
